@@ -21,7 +21,7 @@ exports.validar = async (req, res) => {
         .modify(function (queryBuilder) {
             if (req.body.email && req.body.password) {
                 queryBuilder
-                    .whereRaw(' email = ' + req.body.email + ' AND senha = MD5(\'' + req.body.password + '\')')
+                    .whereRaw(' email = \'' + req.body.email + '\' AND password = \'' + req.body.password + '\'')
             } else {
                 erro = true
                 console.log('Problemas com o email ou senha')
@@ -33,7 +33,7 @@ exports.validar = async (req, res) => {
                 req.session.email = req.body.email
                 res.redirect('/perfil')
             } else {
-                res.render('login', {
+                res.render('pages/login', {
                     mensagem: 'Verifique se o email e a senha estão corretos!'
                 })                
             }
