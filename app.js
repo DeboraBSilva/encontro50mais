@@ -2,12 +2,13 @@ const express = require("express");
 const app = express();
 const session = require("express-session");
 const routes = require("./src/routes");
+require("dotenv").config();
 
 const port = 3000;
 
 app.use(
   session({
-    secret: "tron",
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false,
   })
