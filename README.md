@@ -1,4 +1,4 @@
-# encontro50mais
+# Encontro50mais
 
 ### Get Started
 - Node version: 17.7.1
