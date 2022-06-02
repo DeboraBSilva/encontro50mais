@@ -22,7 +22,7 @@ app.use("/", routes);
 
 app.listen(port, (err) => {
   if (err) {
-    console.log("Erro");
+    console.log(`Erro: ${err}`);
   } else {
     console.log(`Server running in http://localhost:${port}/`);
   }

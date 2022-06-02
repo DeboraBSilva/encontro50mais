@@ -6,10 +6,10 @@
       <p><%= pergunta.tipo %></p>
       <input type="int" name="idPergunta" value=<%= pergunta.idPergunta %> hidden/>
       <% if(pergunta.tipo == 'Texto') { %>
-        <input type="text" name="respostaTexto" />
+        <input type="text" id="respostaTexto" name="respostaTexto" />
       <% } 
         else if ( pergunta.tipo == 'Numero' ) { %>
-          <input type="number" name="respostaNumero" />
+          <input type="number" id="respostaNumero" name="respostaNumero" />
       <% } 
         else if ( pergunta.tipo == 'Unica' ) { %> 
           <% opcoes.forEach( opcao => { %>
@@ -33,8 +33,12 @@
           <% }) %> 
       <% } 
         else if ( pergunta.tipo == 'Intervalo' ) { %>
-          De <input type="number" id="respostaIntervalo1" name="respostaIntervalo1" /> até <input type="number" id="respostaIntervalo2" name="respostaIntervalo2" />
+          De 
+          <input type="number" id="respostaIntervalo1" name="respostaIntervalo1" /> 
+          até 
+          <input type="number" id="respostaIntervalo2" name="respostaIntervalo2" />
       <% } %>
+
       <div class="pure-controls">
         <button type="button" class="pure-button pure-button-primary" id="btnAnterior" onclick="anterior()">
           Anterior
@@ -50,5 +54,23 @@
   </div>
 </main>
 
+<script>
+  const respostas = <%- JSON.stringify(respostas) %> 
+  respostas.forEach((resposta) => {
+    if (resposta.idOpcao) {
+      console.log('entrou no opcao')
+      document.getElementById(resposta.idOpcao).checked = true;
+    } else if (resposta.respostaTexto) {
+      document.getElementById("respostaTexto").value = resposta.respostaTexto;
+    } else if (resposta.respostaNumero) {
+      document.getElementById("respostaNumero").value = resposta.respostaNumero;
+    } else if (resposta.respostaIntervalo1 || resposta.respostaIntervalo2) {
+      document.getElementById("respostaIntervalo1").value =
+        resposta.respostaIntervalo1;
+      document.getElementById("respostaIntervalo2").value =
+        resposta.respostaIntervalo2;
+    }
+  });
+</script>
 <script src="/js/perfil.js"></script>
 <%- include('footer') -%>

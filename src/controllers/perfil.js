@@ -26,16 +26,40 @@ exports.getPergunta = async (req, res) => {
         .where("idPergunta", pergunta[0].idPergunta)
         .then((opcoes) => {
           req.session.posicaoPergunta = req.session.posicaoPergunta + 1;
-          res.render("pages/perfil", {
-            pergunta: pergunta[0],
-            opcoes,
-          });
+          knex
+            .select(
+              "idPergunta",
+              "idOpcao",
+              "respostaTexto",
+              "respostaNumero",
+              "respostaIntervalo1",
+              "respostaIntervalo2"
+            )
+            .from("resposta")
+            .modify(function (queryBuilder) {
+              if (req.session.idPessoa) {
+                queryBuilder.where("idPessoa", req.session.idPessoa);
+              }
+            })
+            .andWhere("idPergunta", pergunta[0].idPergunta)
+            .then((respostas) => {
+              res.render("pages/perfil", {
+                pergunta: pergunta[0],
+                opcoes,
+                respostas,
+              });
+            })
+            .catch((err) => {
+              console.log(`Ocorreu um erro ao buscar as opções: ${err}`);
+            });
         })
         .catch((err) => {
           console.log(`Ocorreu um erro ao buscar as opções: ${err}`);
         });
     })
     .catch((err) => {
+      req.session.posicaoPergunta = 0
+      res.render("index_user");
       console.log(`Ocorreu um erro ao buscar a pergunta: ${err}`);
     });
 };
@@ -62,14 +86,20 @@ exports.salvarResposta = async (req, res) => {
           idPergunta: req.body.idPergunta,
           idOpcao: idOpcao,
           respostaTexto: req.body.respostaTexto,
-          respostaNumero: Number.isInteger(req.body.respostaNumero)
-            ? req.body.respostaNumero
+          respostaNumero: Number.isInteger(
+            parseInt(req.body.respostaNumero, 10)
+          )
+            ? parseInt(req.body.respostaNumero, 10)
             : undefined,
-          respostaIntervalo1: Number.isInteger(req.body.respostaIntervalo1)
-            ? req.body.respostaNumero
+          respostaIntervalo1: Number.isInteger(
+            parseInt(req.body.respostaIntervalo1, 10)
+          )
+            ? parseInt(req.body.respostaIntervalo1, 10)
             : undefined,
-          respostaIntervalo2: Number.isInteger(req.body.respostaIntervalo2)
-            ? req.body.respostaNumero
+          respostaIntervalo2: Number.isInteger(
+            parseInt(req.body.respostaIntervalo2, 10)
+          )
+            ? parseInt(req.body.respostaIntervalo2, 10)
             : undefined,
         };
       });
