@@ -42,17 +42,47 @@ exports.getPergunta = async (req, res) => {
 
 exports.salvarResposta = async (req, res) => {
   knex("resposta")
-    .insert({
-      idPessoa: req.body.idPessoa,
-      idPergunta: req.body.idPergunta,
-      idOpcao: req.body.idOpcao,
-      respostaTexto: req.body.respostaTexto,
-      respostaNumero: req.body.respostaNumero,
-      respostaIntervalo1: req.body.respostaIntervalo1,
-      respostaIntervalo2: req.body.respostaIntervalo2,
+    .modify(function (queryBuilder) {
+      if (req.session.idPessoa) {
+        queryBuilder.where("idPessoa", req.session.idPessoa);
+      }
     })
+    .andWhere("idPergunta", req.body.idPergunta)
+    .del()
     .then(() => {
-      res.redirect("/perfil");
+      let idsOpcoes = [];
+      if (Array.isArray(req.body.idOpcao)) {
+        idsOpcoes = req.body.idOpcao;
+      } else {
+        idsOpcoes = [req.body.idOpcao];
+      }
+      const resposta = idsOpcoes.map((idOpcao) => {
+        return {
+          idPessoa: req.session.idPessoa,
+          idPergunta: req.body.idPergunta,
+          idOpcao: idOpcao,
+          respostaTexto: req.body.respostaTexto,
+          respostaNumero: Number.isInteger(req.body.respostaNumero)
+            ? req.body.respostaNumero
+            : undefined,
+          respostaIntervalo1: Number.isInteger(req.body.respostaIntervalo1)
+            ? req.body.respostaNumero
+            : undefined,
+          respostaIntervalo2: Number.isInteger(req.body.respostaIntervalo2)
+            ? req.body.respostaNumero
+            : undefined,
+        };
+      });
+      knex("resposta")
+        .insert(resposta)
+        .then(() => {
+          res.redirect("/perfil");
+        })
+        .catch((err) => {
+          console.log(
+            `Ocorreu um erro ao tentar salvar a resposta! Erro: ${err}`
+          );
+        });
     })
     .catch((err) => {
       console.log(`Ocorreu um erro ao tentar salvar a resposta! Erro: ${err}`);

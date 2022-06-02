@@ -2,14 +2,14 @@
 <main>
   <div>
     <form class="pure-form" action='/perfil' method='post'>
-      <p><%= pergunta.idPergunta %></p>
       <h2><%= pergunta.descricao %></h2>
       <p><%= pergunta.tipo %></p>
+      <input type="int" name="idPergunta" value=<%= pergunta.idPergunta %> hidden/>
       <% if(pergunta.tipo == 'Texto') { %>
-        <input type="text" />
+        <input type="text" name="respostaTexto" />
       <% } 
         else if ( pergunta.tipo == 'Numero' ) { %>
-          <input type="number" />
+          <input type="number" name="respostaNumero" />
       <% } 
         else if ( pergunta.tipo == 'Unica' ) { %> 
           <% opcoes.forEach( opcao => { %>
@@ -17,7 +17,7 @@
               <input
                 type="radio"
                 id=<%= opcao.idOpcao %>
-                name="optionsRadios"
+                name="idOpcao"
                 value=<%= opcao.idOpcao %>
               />
               <%= opcao.descricao %>
@@ -27,14 +27,25 @@
         else if ( pergunta.tipo == 'Multiplas' ) { %> 
           <% opcoes.forEach( opcao => { %>
             <label for=<%= opcao.idOpcao %> class="pure-checkbox">
-              <input type="checkbox" id=<%= opcao.idOpcao %> value=<%= opcao.idOpcao %> />
+              <input type="checkbox" id=<%= opcao.idOpcao %> name="idOpcao" value=<%= opcao.idOpcao %> />
               <%= opcao.descricao %>
             </label>
           <% }) %> 
       <% } 
         else if ( pergunta.tipo == 'Intervalo' ) { %>
-          De <input type="number" id="respostaIntervalo1" /> até <input type="number" id="respostaIntervalo2"/>
+          De <input type="number" id="respostaIntervalo1" name="respostaIntervalo1" /> até <input type="number" id="respostaIntervalo2" name="respostaIntervalo2" />
       <% } %>
+      <div class="pure-controls">
+        <button type="button" class="pure-button pure-button-primary" id="btnAnterior" onclick="anterior()">
+          Anterior
+        </button>
+        <button type="submit" class="pure-button pure-button-primary" id="btnSalvar">
+          Salvar e Próxima
+        </button>
+        <button type="button" class="pure-button pure-button-primary" id="btnProxima">
+          <a href="/perfil">Próxima</a>
+        </button>
+      </div>
     </form>
   </div>
 </main>
