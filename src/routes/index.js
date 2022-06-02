@@ -2,9 +2,10 @@ const express = require("express");
 const router = express.Router();
 
 const loginController = require("../controllers/login");
+const perfilController = require("../controllers/perfil");
 const registroController = require("../controllers/registro");
 
-router.get("/", function (req, res) {
+router.get("/", (req, res) => {
   if (req.session.user && req.session.user == "logado") {
     res.render("index_user");
   } else {
@@ -12,7 +13,7 @@ router.get("/", function (req, res) {
   }
 });
 
-router.get("/registro", function (req, res) {
+router.get("/registro", (req, res) => {
   res.render("pages/registro", {
     mensagem: "Preencha os campos para se registrar.",
   });
@@ -20,11 +21,16 @@ router.get("/registro", function (req, res) {
 
 router.post("/registro", registroController.registrar);
 
-router.get("/perfil", function (req, res) {
-  res.render("pages/perfil");
+router.get("/perfil", (req, res) => {
+  if (req.session.user && req.session.user == "logado") {
+    perfilController.getPergunta(req, res);
+  } else {
+    res.render("pages/login", {
+      mensagem: "Entre com os dados para conexão",
+    });
+  }
 });
-
-router.post("/login", loginController.validar);
+router.post("/perfil", perfilController.salvarResposta);
 
 router.get("/login", (req, res) => {
   req.session.user = "";
@@ -33,5 +39,6 @@ router.get("/login", (req, res) => {
     mensagem: "Entre com os dados para conexão",
   });
 });
+router.post("/login", loginController.validar);
 
 module.exports = router;

@@ -18,22 +18,6 @@ app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 
-// app.use("/perfil", (req, res, next) => {
-//   if (req.session.user && req.session.user == "logado") {
-//     return next();
-//   }
-//   res.render("pages/login", {
-//     mensagem: "Entre com os dados para conexão",
-//   });
-// });
-
-// app.use("/", (req, res) => {
-  // if (req.session.user && req.session.user == "logado") {
-  //   res.render("index_user");
-  // }
-  // res.render("index_guest");
-// });
-
 app.use("/", routes);
 
 app.listen(port, (err) => {

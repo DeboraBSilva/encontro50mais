@@ -14,7 +14,6 @@ const knex = require("knex")({
 
 exports.registrar = async (req, res) => {
   req.session.user = "";
-  console.log(req.body)
   knex("pessoa")
     .insert({
       nome: req.body.nome,

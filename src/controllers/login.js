@@ -31,7 +31,8 @@ exports.validar = async (req, res) => {
             if (!erro && usuario[0] && usuario[0].email == req.body.email) {
                 req.session.user = 'logado'
                 req.session.email = req.body.email
-                res.redirect('/perfil')
+                req.session.posicaoPergunta = 0
+                res.redirect('/')
             } else {
                 res.render('pages/login', {
                     mensagem: 'Verifique se o email e a senha estão corretos!'

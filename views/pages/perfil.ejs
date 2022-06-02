@@ -1,4 +1,43 @@
 <%- include('header_user') -%>
-<main>Perfil</main>
+<main>
+  <div>
+    <form class="pure-form" action='/perfil' method='post'>
+      <p><%= pergunta.idPergunta %></p>
+      <h2><%= pergunta.descricao %></h2>
+      <p><%= pergunta.tipo %></p>
+      <% if(pergunta.tipo == 'Texto') { %>
+        <input type="text" />
+      <% } 
+        else if ( pergunta.tipo == 'Numero' ) { %>
+          <input type="number" />
+      <% } 
+        else if ( pergunta.tipo == 'Unica' ) { %> 
+          <% opcoes.forEach( opcao => { %>
+            <label for=<%= opcao.idOpcao %> class="pure-radio">
+              <input
+                type="radio"
+                id=<%= opcao.idOpcao %>
+                name="optionsRadios"
+                value=<%= opcao.idOpcao %>
+              />
+              <%= opcao.descricao %>
+            </label>
+          <% }) %> 
+      <% } 
+        else if ( pergunta.tipo == 'Multiplas' ) { %> 
+          <% opcoes.forEach( opcao => { %>
+            <label for=<%= opcao.idOpcao %> class="pure-checkbox">
+              <input type="checkbox" id=<%= opcao.idOpcao %> value=<%= opcao.idOpcao %> />
+              <%= opcao.descricao %>
+            </label>
+          <% }) %> 
+      <% } 
+        else if ( pergunta.tipo == 'Intervalo' ) { %>
+          De <input type="number" id="respostaIntervalo1" /> até <input type="number" id="respostaIntervalo2"/>
+      <% } %>
+    </form>
+  </div>
+</main>
 
+<script src="/js/perfil.js"></script>
 <%- include('footer') -%>
