@@ -7,7 +7,9 @@ const registroController = require("../controllers/registro");
 
 router.get("/", (req, res) => {
   if (req.session.user && req.session.user == "logado") {
-    res.render("index_user");
+    res.render("index_user", {
+      apelido: req.session.apelido,
+    });
   } else {
     res.render("index_guest");
   }

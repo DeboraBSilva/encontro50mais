@@ -12,6 +12,16 @@ body {
   font-family: "Open Sans", sans-serif;
 }
 
+.footer {
+  display: flex;
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 15px;
+}
+
 /*
 header {
   display: flex;
@@ -49,12 +59,4 @@ main {
 } 
 */
 
-.footer {
-  display: flex;
-  position: fixed;
-  bottom: 0px;
-  width: 100%;
-  flex-direction: column;
-  align-items: center;
-  padding-bottom: 15px;
-}
+

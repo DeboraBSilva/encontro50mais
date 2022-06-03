@@ -14,7 +14,6 @@ const knex = require("knex")({
 
 exports.getPergunta = async (req, res) => {
   let contador = parseInt(req.session.posicaoPergunta);
-  console.log("antes do if", contador);
   if (req.query.contador) {
     contador--;
     if (contador < 0) {
@@ -24,8 +23,6 @@ exports.getPergunta = async (req, res) => {
     contador++;
   }
   req.session.posicaoPergunta = contador;
-  console.log("depois do if", contador);
-  console.log("req.query", req.query );
   knex
     .select("idPergunta", "descricao", "tipo")
     .from("pergunta")
@@ -33,7 +30,6 @@ exports.getPergunta = async (req, res) => {
     .limit(1)
     .offset(contador)
     .then((pergunta) => {
-      
       knex
         .select("idOpcao", "descricao")
         .from("opcao")
@@ -57,6 +53,7 @@ exports.getPergunta = async (req, res) => {
             .andWhere("idPergunta", pergunta[0].idPergunta)
             .then((respostas) => {
               res.render("pages/perfil", {
+                apelido: req.session.apelido,
                 pergunta: pergunta[0],
                 opcoes,
                 respostas,
@@ -72,7 +69,9 @@ exports.getPergunta = async (req, res) => {
     })
     .catch((err) => {
       req.session.posicaoPergunta = 0;
-      res.render("index_user");
+      res.render("index_user", {
+        apelido: req.session.apelido,
+      });
       console.log(`Ocorreu um erro ao buscar a pergunta: ${err}`);
     });
 };

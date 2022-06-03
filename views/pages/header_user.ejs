@@ -11,8 +11,6 @@
       href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
       rel="stylesheet"
     />
-    <!--Enable the following script to use TailwindCSS v3.0 may not work in design mode-->
-    <!--<script src="https://cdn.tailwindcss.com"></script>-->
     <link
       rel="stylesheet"
       href="https://unpkg.com/swiper/swiper-bundle.min.css"
@@ -24,21 +22,24 @@
   <body>
     <nav class="text-gray-600 bg-red-50 body-font">
       <div
-        class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center"
+        class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center justify-between"
       >
         <a
           class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0"
           href="/"
         >
-          <img src="assets/images/logo.png" width="200"/>
+          <img src="assets/images/logo.png" width="200" />
         </a>
-        <nav
-          class="md:ml-auto flex flex-wrap items-center text-base justify-center"
-        >
-          <a class="mr-5 hover:text-gray-900" href="/">Home</a>
-          <a class="mr-5 hover:text-gray-900" href="/perfil">Perfil</a>
-          <a class="mr-5 hover:text-gray-900" href="/login">Sair</a>
-        </nav>
+        <div class="flex flex-wrap p-5 flex-col md:flex-row items-center">
+          <span class="text-black pr-12">Olá <span class="text-indigo-500 font-bold"><%= apelido %></span></span>
+          <nav
+            class="md:ml-auto flex flex-wrap items-center text-base justify-center"
+          >
+            <a class="mr-5 hover:text-gray-900" href="/">Home</a>
+            <a class="mr-5 hover:text-gray-900" href="/perfil">Perfil</a>
+            <a class="mr-5 hover:text-gray-900" href="/login">Sair</a>
+          </nav>
+        </div>
       </div>
     </nav>
 

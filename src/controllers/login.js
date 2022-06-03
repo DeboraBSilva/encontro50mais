@@ -16,7 +16,7 @@ exports.validar = async (req, res) => {
     req.session.user = ''
     let erro = false
     knex.select(
-        'idPessoa', 'email'
+        'idPessoa', 'email', 'apelido'
     ).from('pessoa')
         .modify(function (queryBuilder) {
             if (req.body.email && req.body.password) {
@@ -32,6 +32,7 @@ exports.validar = async (req, res) => {
                 req.session.user = 'logado'
                 req.session.email = req.body.email
                 req.session.idPessoa = usuario[0].idPessoa
+                req.session.apelido = usuario[0].apelido
                 req.session.posicaoPergunta = -1
                 res.redirect('/')
             } else {
