@@ -1,21 +1,52 @@
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:100,200,300,400,500,600,700,800,900" rel="stylesheet">
-    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css" integrity="sha384-yHIFVG6ClnONEA5yB5DJXfW2/KC173DIQrYoZMEtBvGzmf0PKiGyNEqe9N6BNDBH" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
     <title>Encontro50+</title>
+    <link
+      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <!--Enable the following script to use TailwindCSS v3.0 may not work in design mode-->
+    <!--<script src="https://cdn.tailwindcss.com"></script>-->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/swiper/swiper-bundle.min.css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
+
   <body>
-    <header class="header">
-      <h1>Encontro50+</h1>
-      <nav class="header__menu">
-        <a href="/">Home</a>
-        <a href="/registro" id="registrar">Registre-se</a>
-        <a href="/login" id="entrar">Entrar</a>
-      </nav>
-    </header>
+    <nav class="text-gray-600 bg-red-50 body-font">
+      <div
+        class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center"
+      >
+        <a
+          class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0"
+          href="/"
+        >
+          <img src="assets/images/logo.png" width="200"/>
+        </a>
+        <nav
+          class="md:ml-auto flex flex-wrap items-center text-base justify-center"
+        >
+          <a class="mr-5 hover:text-gray-900" href="/">Home</a>
+          <a class="mr-5 hover:text-gray-900" href="/registro" id="registrar"
+            >Registre-se</a
+          >
+        </nav>
+        <a class="mr-5 hover:text-gray-900" href="/login" id="entrar"
+          ><button
+            class="inline-flex items-center bg-indigo-500 text-white border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0"
+          >
+            Login
+          </button></a
+        >
+      </div>
+    </nav>
+
