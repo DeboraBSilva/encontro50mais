@@ -13,19 +13,32 @@ const knex = require("knex")({
 });
 
 exports.getPergunta = async (req, res) => {
+  let contador = parseInt(req.session.posicaoPergunta);
+  console.log("antes do if", contador);
+  if (req.query.contador) {
+    contador--;
+    if (contador < 0) {
+      contador = 0;
+    }
+  } else {
+    contador++;
+  }
+  req.session.posicaoPergunta = contador;
+  console.log("depois do if", contador);
+  console.log("req.query", req.query );
   knex
     .select("idPergunta", "descricao", "tipo")
     .from("pergunta")
     .orderBy("ordem", "asc")
     .limit(1)
-    .offset(req.session.posicaoPergunta)
+    .offset(contador)
     .then((pergunta) => {
+      
       knex
         .select("idOpcao", "descricao")
         .from("opcao")
         .where("idPergunta", pergunta[0].idPergunta)
         .then((opcoes) => {
-          req.session.posicaoPergunta = req.session.posicaoPergunta + 1;
           knex
             .select(
               "idPergunta",
@@ -58,7 +71,7 @@ exports.getPergunta = async (req, res) => {
         });
     })
     .catch((err) => {
-      req.session.posicaoPergunta = 0
+      req.session.posicaoPergunta = 0;
       res.render("index_user");
       console.log(`Ocorreu um erro ao buscar a pergunta: ${err}`);
     });
