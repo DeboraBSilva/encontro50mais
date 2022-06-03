@@ -81,23 +81,7 @@
               </label>
             </div>
           <% }) %> 
-      <% } 
-        else if ( pergunta.tipo == 'Intervalo' ) { %>
-          De 
-          <input 
-            class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            type="number" 
-            id="respostaIntervalo1" 
-            name="respostaIntervalo1" /> 
-          até 
-          <input
-            class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            type="number" 
-            id="respostaIntervalo2" 
-            name="respostaIntervalo2" />
-      <% } %>
-
-      
+      <% } %>  
     </form>
   </div>
 </div>
@@ -111,13 +95,7 @@
       document.getElementById("respostaTexto").value = resposta.respostaTexto;
     } else if (resposta.respostaNumero) {
       document.getElementById("respostaNumero").value = resposta.respostaNumero;
-    } else if (resposta.respostaIntervalo1 || resposta.respostaIntervalo2) {
-      document.getElementById("respostaIntervalo1").value =
-        resposta.respostaIntervalo1;
-      document.getElementById("respostaIntervalo2").value =
-        resposta.respostaIntervalo2;
     }
   });
 </script>
-<script src="/js/perfil.js"></script>
 <%- include('footer') -%>

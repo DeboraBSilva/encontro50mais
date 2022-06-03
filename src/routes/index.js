@@ -3,6 +3,7 @@ const router = express.Router();
 
 const loginController = require("../controllers/login");
 const perfilController = require("../controllers/perfil");
+const preferenciaController = require("../controllers/preferencia");
 const registroController = require("../controllers/registro");
 
 router.get("/", (req, res) => {
@@ -33,6 +34,17 @@ router.get("/perfil", (req, res) => {
   }
 });
 router.post("/perfil", perfilController.salvarResposta);
+
+router.get("/preferencia", (req, res) => {
+  if (req.session.user && req.session.user == "logado") {
+    preferenciaController.getPergunta(req, res);
+  } else {
+    res.render("pages/login", {
+      mensagem: "Entre com os dados para conexão",
+    });
+  }
+});
+router.post("/preferencia", preferenciaController.salvarPreferencia);
 
 router.get("/login", (req, res) => {
   req.session.user = "";

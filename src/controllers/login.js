@@ -34,6 +34,7 @@ exports.validar = async (req, res) => {
                 req.session.idPessoa = usuario[0].idPessoa
                 req.session.apelido = usuario[0].apelido
                 req.session.posicaoPergunta = -1
+                req.session.posicaoPerguntaPreferencia = -1
                 res.redirect('/')
             } else {
                 res.render('pages/login', {

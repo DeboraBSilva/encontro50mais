@@ -36,14 +36,7 @@ exports.getPergunta = async (req, res) => {
         .where("idPergunta", pergunta[0].idPergunta)
         .then((opcoes) => {
           knex
-            .select(
-              "idPergunta",
-              "idOpcao",
-              "respostaTexto",
-              "respostaNumero",
-              "respostaIntervalo1",
-              "respostaIntervalo2"
-            )
+            .select("idPergunta", "idOpcao", "respostaTexto", "respostaNumero")
             .from("resposta")
             .modify(function (queryBuilder) {
               if (req.session.idPessoa) {
@@ -102,16 +95,6 @@ exports.salvarResposta = async (req, res) => {
             parseInt(req.body.respostaNumero, 10)
           )
             ? parseInt(req.body.respostaNumero, 10)
-            : undefined,
-          respostaIntervalo1: Number.isInteger(
-            parseInt(req.body.respostaIntervalo1, 10)
-          )
-            ? parseInt(req.body.respostaIntervalo1, 10)
-            : undefined,
-          respostaIntervalo2: Number.isInteger(
-            parseInt(req.body.respostaIntervalo2, 10)
-          )
-            ? parseInt(req.body.respostaIntervalo2, 10)
             : undefined,
         };
       });
