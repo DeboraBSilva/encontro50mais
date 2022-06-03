@@ -1,0 +1,94 @@
+<%- include('header_user') -%>
+<div
+  class="w-full max-w-2xl h-full"
+  style="margin-left: auto; margin-right: auto; padding-top: 50px"
+>
+  <div>
+    <span class="text-2xl">Preferências</span>
+    <form     
+      class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+      action='/preferencia' method='post'>
+      <div class="flex items-center justify-between">
+        <button 
+          class="inline-flex items-center bg-indigo-500 text-white border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0" 
+          type="button" 
+          id="btnAnterior">
+          <a href="/preferencia?contador=true">Anterior</a>
+        </button>
+        <button 
+          class="inline-flex items-center bg-indigo-500 text-white border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0"
+          type="submit" 
+          id="btnSalvar">
+          Salvar e Próxima
+        </button>
+        <button 
+          class="inline-flex items-center bg-indigo-500 text-white border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0" 
+          type="button" 
+          id="btnProxima">
+          <a href="/preferencia">Próxima</a>
+        </button>
+      </div>
+      <div>
+        <label class="block text-gray-700 text-lg font-bold mb-2 pb-1 pt-8"><%= pergunta.descricao %></label>
+      </div>
+      <input 
+        type="int" 
+        name="idPergunta" 
+        value=<%= pergunta.idPergunta %> 
+        hidden/>
+      <% if(pergunta.tipo == 'Texto') { %>
+        <input 
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          type="text" 
+          id="respostaTexto" 
+          name="respostaTexto" />
+      <% } 
+        else if ( pergunta.tipo == 'Numero' ) { %>
+          De 
+          <input 
+            class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            type="number" 
+            id="respostaIntervalo1" 
+            name="respostaIntervalo1" /> 
+          até 
+          <input
+            class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            type="number" 
+            id="respostaIntervalo2" 
+            name="respostaIntervalo2" />
+      <% } 
+        else if ( pergunta.tipo == 'Multiplas' || pergunta.tipo == 'Unica') { %> 
+          <% opcoes.forEach( opcao => { %>
+            <div class="flex mt-2">
+              <label for=<%= opcao.idOpcao %> class="flex items-center">
+                <input 
+                class="form-checkbox"
+                  type="checkbox" 
+                  id=<%= opcao.idOpcao %> 
+                  name="idOpcao" 
+                  value=<%= opcao.idOpcao %> />
+                  <span class="ml-2"><%= opcao.descricao %></span>
+              </label>
+            </div>
+          <% }) %> 
+      <% } %>     
+    </form>
+  </div>
+</div>
+
+<script>
+  const respostas = <%- JSON.stringify(respostas) %> 
+  respostas.forEach((resposta) => {
+    if (resposta.idOpcao) {
+      document.getElementById(resposta.idOpcao).checked = true;
+    } else if (resposta.respostaTexto) {
+      document.getElementById("respostaTexto").value = resposta.respostaTexto;
+    } else if (resposta.respostaIntervalo1 || resposta.respostaIntervalo2) {
+      document.getElementById("respostaIntervalo1").value =
+        resposta.respostaIntervalo1;
+      document.getElementById("respostaIntervalo2").value =
+        resposta.respostaIntervalo2;
+    }
+  });
+</script>
+<%- include('footer') -%>
