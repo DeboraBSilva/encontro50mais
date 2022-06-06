@@ -5,6 +5,7 @@ const loginController = require("../controllers/login");
 const perfilController = require("../controllers/perfil");
 const preferenciaController = require("../controllers/preferencia");
 const registroController = require("../controllers/registro");
+const perguntaController = require("../controllers/pergunta");
 
 router.get("/", (req, res) => {
   res.render("index", {
@@ -57,14 +58,24 @@ router.get("/admin", (req, res) => {
     req.session.user == "logado" &&
     req.session.tipo == "Admin"
   ) {
-    res.render("pages/admin", {
-      user: req.session.user,
-      apelido: req.session.apelido,
-      tipo: req.session.tipo,
-    });
+    perguntaController.getPerguntas(req, res);
   } else {
     res.redirect("/");
   }
 });
+
+router.get("/novaPergunta", (req, res) => {
+  if (
+    req.session.user &&
+    req.session.user == "logado" &&
+    req.session.tipo == "Admin"
+  ) {
+    perguntaController.getPergunta(req, res);
+  } else {
+    res.redirect("/login");
+  }
+});
+router.post("/novaPergunta", perguntaController.salvarPergunta);
+router.get("/excluirPergunta", perguntaController.deletePergunta);
 
 module.exports = router;

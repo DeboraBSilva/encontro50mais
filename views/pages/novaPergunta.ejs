@@ -1,0 +1,155 @@
+<%- include('../header') -%>
+<div role="alert">
+  <div
+    class="border border-t-0 0 rounded-b px-4 py-3"
+    style="color: white; background-color: darkorange"
+  >
+    Atenção
+  </div>
+  <div
+    class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700"
+  >
+    <p><%= mensagem %></p>
+  </div>
+</div>
+<div
+  class="w-full max-w-2xl"
+  style="margin-left: auto; margin-right: auto; padding-top: 50px"
+>
+  <span class="text-2xl">Cadastro de Pergunta</span>
+  <form
+      class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+      action="/novaPergunta?id=<%= pergunta.idPergunta %>"
+      method="post"
+    >
+    <div class="md:flex md:items-center mb-6">
+      <div class="md:w-1/3">
+        <label class="block text-gray-700 text-sm font-bold sm-2" for="descricao"
+          >Descrição</label
+        >
+      </div>
+      <input
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        type="text"
+        id="descricao"
+        name="descricao"
+        placeholder="Descrição"
+        required
+      />
+    </div>
+    <div class="md:flex md:items-center mb-2">
+      <div class="md:w-1/4">
+        <label class="block text-gray-700 text-sm font-bold sm-2" for="ordem"
+          >Ordem</label
+        >
+      </div>
+      <input
+        class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        type="number"
+        id="ordem"
+        name="ordem"
+        placeholder="Ordem"
+        required
+      />
+    </div>
+    <div class="md:flex md:items-center mb-6">
+      <div class="md:w-1/4">
+        <label
+          class="block text-gray-700 text-sm font-bold sm-2"
+          for="tipo"
+          >Tipo</label
+        >
+      </div>
+      <div class="mt-2 mr-8">
+        <div class="inline-flex items-center">
+          <label for="unica" class="ml-2">
+            <input
+              class="form-radio"
+              type="radio"
+              id="unica"
+              name="tipo"
+              value="Unica"
+            />
+            <span class="ml-1">Única</span>
+          </label>
+        </div>
+      </div>
+      <div class="mt-2 mr-8">
+        <div class="inline-flex items-center">
+          <label for="multiplas" class="ml-2">
+            <input
+              class="form-radio"
+              type="radio"
+              id="multiplas"
+              name="tipo"
+              value="Multiplas"
+            />
+            <span class="ml-1">Múltiplas</span>
+          </label>
+        </div>
+      </div>
+      <div class="mt-2 mr-8">
+        <div class="inline-flex items-center">
+          <label for="texto" class="ml-2">
+            <input
+              class="form-radio"
+              type="radio"
+              id="texto"
+              name="tipo"
+              value="Texto"
+            />
+            <span class="ml-1">Texto</span>
+          </label>
+        </div>
+      </div>
+      <div class="mt-2 mr-8">
+        <div class="inline-flex items-center">
+          <label for="numero" class="ml-2">
+            <input
+              class="form-radio"
+              type="radio"
+              id="numero"
+              name="tipo"
+              value="Numero"
+            />
+            <span class="ml-1">Número</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="md:flex md:items-center mb-6">
+      <div class="md:w-1/3">
+        <label class="block text-gray-700 text-sm font-bold sm-2" for="opcaoDescricao"
+          >Descrição da Opção</label
+        >
+      </div>
+      <input
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        type="text"
+        id="opcaoDescricao"
+        name="opcaoDescricao"
+        placeholder="Descrição da opção"
+      />
+    </div>
+
+    <div class="flex items-center justify-between">
+      <button
+        class="inline-flex items-center bg-indigo-500 text-white border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0"
+        type="submit"
+      >
+        Salvar
+      </button>
+    </div>
+  </form>
+</div>
+
+<script>
+  const pergunta = <%- JSON.stringify(pergunta) %>;
+  if(pergunta){
+    document.getElementById("descricao").value = pergunta.descricao;
+    document.getElementById("ordem").value = pergunta.ordem;
+    document.getElementById(pergunta.tipo.toLowerCase()).checked = true;
+  }
+</script>
+<%- include('../footer') -%>

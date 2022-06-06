@@ -64,11 +64,7 @@ exports.getPergunta = async (req, res) => {
     })
     .catch((err) => {
       req.session.posicaoPergunta = 0;
-      res.render("index", {
-        user: req.session.user,
-        apelido: req.session.apelido,
-        tipo: req.session.tipo,
-      });
+      res.redirect("/");
       console.log(`Ocorreu um erro ao buscar a pergunta: ${err}`);
     });
 };
