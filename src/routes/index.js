@@ -7,17 +7,16 @@ const preferenciaController = require("../controllers/preferencia");
 const registroController = require("../controllers/registro");
 
 router.get("/", (req, res) => {
-  if (req.session.user && req.session.user == "logado") {
-    res.render("index_user", {
-      apelido: req.session.apelido,
-    });
-  } else {
-    res.render("index_guest");
-  }
+  res.render("index", {
+    user: req.session.user,
+    apelido: req.session.apelido,
+    tipo: req.session.tipo,
+  });
 });
 
 router.get("/registro", (req, res) => {
   res.render("pages/registro", {
+    user: req.session.user,
     mensagem: "Preencha os campos para se registrar.",
   });
 });
@@ -28,9 +27,7 @@ router.get("/perfil", (req, res) => {
   if (req.session.user && req.session.user == "logado") {
     perfilController.getPergunta(req, res);
   } else {
-    res.render("pages/login", {
-      mensagem: "Entre com os dados para conexão",
-    });
+    res.redirect("/login");
   }
 });
 router.post("/perfil", perfilController.salvarResposta);
@@ -39,9 +36,7 @@ router.get("/preferencia", (req, res) => {
   if (req.session.user && req.session.user == "logado") {
     preferenciaController.getPergunta(req, res);
   } else {
-    res.render("pages/login", {
-      mensagem: "Entre com os dados para conexão",
-    });
+    res.redirect("/login");
   }
 });
 router.post("/preferencia", preferenciaController.salvarPreferencia);
@@ -50,9 +45,26 @@ router.get("/login", (req, res) => {
   req.session.user = "";
   req.session.email = "";
   res.render("pages/login", {
-    mensagem: "Entre com os dados para conexão",
+    user: req.session.user,
+    mensagem: `Faça o login.`,
   });
 });
 router.post("/login", loginController.validar);
+
+router.get("/admin", (req, res) => {
+  if (
+    req.session.user &&
+    req.session.user == "logado" &&
+    req.session.tipo == "Admin"
+  ) {
+    res.render("pages/admin", {
+      user: req.session.user,
+      apelido: req.session.apelido,
+      tipo: req.session.tipo,
+    });
+  } else {
+    res.redirect("/");
+  }
+});
 
 module.exports = router;

@@ -46,7 +46,9 @@ exports.getPergunta = async (req, res) => {
             .andWhere("idPergunta", pergunta[0].idPergunta)
             .then((respostas) => {
               res.render("pages/perfil", {
+                user: req.session.user,
                 apelido: req.session.apelido,
+                tipo: req.session.tipo,
                 pergunta: pergunta[0],
                 opcoes,
                 respostas,
@@ -62,8 +64,10 @@ exports.getPergunta = async (req, res) => {
     })
     .catch((err) => {
       req.session.posicaoPergunta = 0;
-      res.render("index_user", {
+      res.render("index", {
+        user: req.session.user,
         apelido: req.session.apelido,
+        tipo: req.session.tipo,
       });
       console.log(`Ocorreu um erro ao buscar a pergunta: ${err}`);
     });

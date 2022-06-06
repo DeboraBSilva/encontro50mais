@@ -24,13 +24,12 @@ exports.registrar = async (req, res) => {
       password: req.body.password,
     })
     .then(() => {
-      res.render("pages/login", {
-        mensagem: `Faça o login.`
-      });
+      res.redirect("/login");
     })
     .catch((err) => {
       res.render("pages/registro", {
-        mensagem: `Ocorreu um erro ao tentar registrar! Erro: ${err}`
+        user: req.session.user,
+        mensagem: `Ocorreu um erro ao tentar registrar! Erro: ${err}`,
       });
       console.log(`Ocorreu um erro ao tentar registrar! Erro: ${err}`);
     });
