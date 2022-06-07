@@ -16,12 +16,18 @@ router.get("/", (req, res) => {
 });
 
 router.get("/registro", (req, res) => {
-  res.render("pages/registro", {
-    user: req.session.user,
-    mensagem: "Preencha os campos para se registrar.",
-  });
+  if (req.session.user && req.session.user == "logado") {
+    registroController.getRegistro(req, res);
+  } else {
+    res.render("pages/registro", {
+      user: req.session.user,
+      apelido: "",
+      tipo: "",
+      pessoa: false,
+      mensagem: "Preencha os campos para se registrar.",
+    });
+  }
 });
-
 router.post("/registro", registroController.registrar);
 
 router.get("/perfil", (req, res) => {

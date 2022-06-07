@@ -116,6 +116,7 @@
     <div class="flex items-center justify-between">
       <button
         class="inline-flex items-center bg-indigo-500 text-white border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0"
+        id="btnSalvar"
         type="submit"
       >
         Registrar
@@ -123,5 +124,19 @@
     </div>
   </form>
 </div>
+
+<script>
+  const pessoa = <%- JSON.stringify(pessoa) %>;
+  console.log(pessoa)
+  if (pessoa) {
+    document.getElementById("nome").value = pessoa.nome;
+    document.getElementById("apelido").value = pessoa.apelido;
+    document.getElementById("email").value = pessoa.email;
+    document.getElementById("nascimento").value = pessoa.nascimento; // TODO nao esta preenchendo na tela
+    document.getElementById("cidade").value = pessoa.cidade;
+    document.getElementById("password").value = pessoa.password;
+    document.getElementById("btnSalvar").innerText = "Salvar"
+  }
+</script>
 
 <%- include('../footer') -%>
