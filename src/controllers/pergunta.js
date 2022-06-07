@@ -33,11 +33,12 @@ exports.getPerguntas = async (req, res) => {
 
 exports.getPergunta = async (req, res) => {
   if (!req.query.id || req.query.id == "") {
-    res.render("pages/novaPergunta", {
+    res.render("pages/pergunta", {
       user: req.session.user,
       apelido: req.session.apelido,
       tipo: req.session.tipo,
       pergunta: false,
+      opcoes: false,
       mensagem: "Cadastre uma nova pergunta.",
     });
     return;
@@ -49,13 +50,23 @@ exports.getPergunta = async (req, res) => {
     .where("idPergunta", req.query.id)
     .orderBy("ordem", "asc")
     .then((pergunta) => {
-      res.render("pages/novaPergunta", {
-        user: req.session.user,
-        apelido: req.session.apelido,
-        tipo: req.session.tipo,
-        pergunta: pergunta[0],
-        mensagem: "Altere e salve para editar a pergunta.",
-      });
+      knex
+        .select("idOpcao", "descricao")
+        .from("opcao")
+        .where("idPergunta", pergunta[0].idPergunta)
+        .then((opcoes) => {
+          res.render("pages/pergunta", {
+            user: req.session.user,
+            apelido: req.session.apelido,
+            tipo: req.session.tipo,
+            pergunta: pergunta[0],
+            opcoes,
+            mensagem: "Altere e salve para editar a pergunta.",
+          });
+        })
+        .catch((err) => {
+          console.log(`Ocorreu um erro ao buscar as opções: ${err}`);
+        });
     })
     .catch((err) => {
       res.redirect("/admin");
@@ -76,19 +87,24 @@ exports.salvarPergunta = async (req, res) => {
       tipo: req.body.tipo,
     })
     .then((idsPergunta) => {
-      knex("opcao")
-        .insert({
-          idPergunta: idsPergunta[0],
-          descricao: req.body.opcaoDescricao,
-        })
-        .then(() => {
-          res.redirect("/novaPergunta");
-        })
-        .catch((err) => {
-          console.log(
-            `Ocorreu um erro ao tentar salvar as opções! Erro: ${err}`
-          );
-        });
+      if (req.body.tipo == "Texto" || req.body.tipo == "Numero") {
+        res.redirect("/pergunta");
+      } else {
+        // TODO foreach opcao
+        knex("opcao")
+          .insert({
+            idPergunta: idsPergunta[0],
+            descricao: req.body.opcaoDescricao,
+          })
+          .then(() => {
+            res.redirect("/pergunta");
+          })
+          .catch((err) => {
+            console.log(
+              `Ocorreu um erro ao tentar salvar as opções! Erro: ${err}`
+            );
+          });
+      }
     })
     .catch((err) => {
       console.log(`Ocorreu um erro ao tentar salvar a pergunta! Erro: ${err}`);
@@ -121,8 +137,57 @@ const updatePergunta = async (req, res) => {
     })
     .where("idPergunta", req.query.id)
     .then(() => {
-      // res.redirect(`/novaPergunta?id=${req.query.id}`);
-      res.redirect("/admin");
+      if (req.body.tipo == "Texto" || req.body.tipo == "Numero") {
+        knex("opcao")
+          .where("idPergunta", req.query.id)
+          .del()
+          .then(() => {
+            // res.redirect(`/pergunta?id=${req.query.id}`);
+            res.redirect("/admin");
+          })
+          .catch((err) => {
+            console.log(
+              `Ocorreu um erro ao tentar alterar as opções! Erro: ${err}`
+            );
+          });
+      } else {
+        let idsOpcoes = [];
+        if (Array.isArray(req.body.idsOpcoes)) {
+          idsOpcoes = req.body.idsOpcoes;
+        } else {
+          idsOpcoes = [req.body.idsOpcoes];
+        }
+        // TODO alterar opcoes, caindo no .catch da pergunta Cannot read properties of undefined (reading 'then')
+        console.log("body", req.body);
+        idsOpcoes
+          .forEach((id, index) => {
+            let idOpcao = parseInt(id);
+            if (idOpcao) {
+              knex("opcao")
+                .update({
+                  descricao: req.body.opcoes[index],
+                })
+                .where("idOpcao", idOpcao)
+                .then(() => {
+                  console.log("Opcao alterada");
+                })
+                .catch((err) => {
+                  console.log(
+                    `Ocorreu um erro ao tentar alterar as opções! Erro: ${err}`
+                  );
+                });
+            }
+          })
+          .then(() => {
+            // res.redirect(`/pergunta?id=${req.query.id}`);
+            res.redirect("/admin");
+          })
+          .catch((err) => {
+            console.log(
+              `Ocorreu um erro ao tentar alterar as opções! Erro: ${err}`
+            );
+          });
+      }
     })
     .catch((err) => {
       console.log(`Ocorreu um erro ao tentar alterar a pergunta! Erro: ${err}`);

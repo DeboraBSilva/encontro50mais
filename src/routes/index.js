@@ -64,7 +64,7 @@ router.get("/admin", (req, res) => {
   }
 });
 
-router.get("/novaPergunta", (req, res) => {
+router.get("/pergunta", (req, res) => {
   if (
     req.session.user &&
     req.session.user == "logado" &&
@@ -75,7 +75,7 @@ router.get("/novaPergunta", (req, res) => {
     res.redirect("/login");
   }
 });
-router.post("/novaPergunta", perguntaController.salvarPergunta);
+router.post("/pergunta", perguntaController.salvarPergunta);
 router.get("/excluirPergunta", perguntaController.deletePergunta);
 
 module.exports = router;

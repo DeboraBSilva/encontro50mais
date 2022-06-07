@@ -55,7 +55,7 @@ exports.getPergunta = async (req, res) => {
               });
             })
             .catch((err) => {
-              console.log(`Ocorreu um erro ao buscar as opções: ${err}`);
+              console.log(`Ocorreu um erro ao buscar as respostas: ${err}`);
             });
         })
         .catch((err) => {
