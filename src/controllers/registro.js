@@ -1,4 +1,3 @@
-const moment = require("moment");
 require("dotenv").config();
 const knex = require("knex")({
   client: "mysql2",
@@ -51,9 +50,8 @@ exports.registrar = async (req, res) => {
           user: req.session.user,
           apelido: "",
           tipo: "",
-          moment: moment,
           pessoa: false,
-          mensagem: `Ocorreu um erro ao tentar registrar! Erro: ${err}`,
+          mensagem: `Ocorreu um erro ao tentar registrar!`,
         });
         console.log(`Ocorreu um erro ao tentar registrar! Erro: ${err}`);
       });
@@ -79,7 +77,6 @@ exports.getRegistro = async (req, res) => {
         user: req.session.user,
         apelido: req.session.apelido,
         tipo: req.session.tipo,
-        moment: moment,
         pessoa: pessoa[0],
         mensagem: "Altere e salve para editar seu registro.",
       });

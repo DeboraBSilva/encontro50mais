@@ -1,8 +1,6 @@
 const express = require("express");
 const router = express.Router();
 
-const moment = require("moment");
-
 const loginController = require("../controllers/login");
 const perfilController = require("../controllers/perfil");
 const preferenciaController = require("../controllers/preferencia");
@@ -25,7 +23,6 @@ router.get("/registro", (req, res) => {
       user: req.session.user,
       apelido: "",
       tipo: "",
-      moment: moment,
       pessoa: false,
       mensagem: "Preencha os campos para se registrar.",
     });
