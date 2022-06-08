@@ -6,6 +6,7 @@ const perfilController = require("../controllers/perfil");
 const preferenciaController = require("../controllers/preferencia");
 const registroController = require("../controllers/registro");
 const perguntaController = require("../controllers/pergunta");
+const candidatoController = require("../controllers/candidato");
 
 router.get("/", (req, res) => {
   res.render("index", {
@@ -47,6 +48,14 @@ router.get("/preferencia", (req, res) => {
   }
 });
 router.post("/preferencia", preferenciaController.salvarPreferencia);
+
+router.get("/candidatos", (req, res) => {
+  if (req.session.user && req.session.user == "logado") {
+    candidatoController.showCandidatos(req,res)
+  } else {
+    res.redirect("/login");
+  }
+});
 
 router.get("/login", (req, res) => {
   req.session.user = "";

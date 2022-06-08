@@ -4,9 +4,15 @@
   style="margin-left: auto; margin-right: auto; padding-top: 50px"
 >
   <div>
-    <div class="w-full inline-flex justify-between">
+    <div class="w-full inline-flex justify-between mb-2">
       <span class="text-2xl">Preferências</span>
-      <span class="text-2xl">Candidatos: <%= qtCandidatos %></span>
+      <a href="/candidatos">
+        <button 
+        class="inline-flex items-center bg-indigo-500 text-white border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0" 
+        type="button">
+          <span class="text-2xl">Candidatos: <%= qtCandidatos %></span>
+        </button>
+      </a>
     </div>
     <form     
       class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"

@@ -51,29 +51,79 @@ exports.getPergunta = async (req, res) => {
             })
             .andWhere("idPergunta", pergunta[0].idPergunta)
             .then((respostas) => {
-              new Promise((resolve, reject) => {
-                getCandidatos(req.session.idPessoa, resolve, reject);
-              })
-                .then((candidatos) => {
-                  res.render("pages/preferencia", {
-                    user: req.session.user,
-                    apelido: req.session.apelido,
-                    tipo: req.session.tipo,
-                    pergunta: pergunta[0],
-                    opcoes,
-                    respostas,
-                    qtCandidatos: candidatos.length,
-                  });
+              knex
+                .select("preferencia.idPessoa")
+                .from("preferencia")
+                .andWhere("preferencia.idPessoa", req.session.idPessoa)
+                .then((preferencias) => {
+                  if (preferencias.length == 0) {
+                    knex
+                      .select("pessoa.idPessoa")
+                      .from("pessoa")
+                      .whereNot("pessoa.idPessoa", req.session.idPessoa)
+                      .then((candidatos) => {
+                        res.render("pages/preferencia", {
+                          user: req.session.user,
+                          apelido: req.session.apelido,
+                          tipo: req.session.tipo,
+                          pergunta: pergunta[0],
+                          opcoes,
+                          respostas,
+                          qtCandidatos: candidatos.length,
+                        });
+                      })
+                      .catch((err) => {
+                        console.log(
+                          `Ocorreu um erro ao procurar candidatos! Erro: ${err}`
+                        );
+                        res.redirect("/");
+                      });
+                  } else {
+                    knex
+                      .select("resposta.idPessoa")
+                      .from("resposta")
+                      .joinRaw(
+                        `INNER JOIN preferencia 
+                          ON (resposta.idPergunta = preferencia.idPergunta) 
+                          AND (resposta.idOpcao = preferencia.idOpcao)`
+                      )
+                      .whereNot("resposta.idPessoa", req.session.idPessoa)
+                      .andWhere("preferencia.idPessoa", req.session.idPessoa)
+                      .then((candidatos) => {
+                        // TODO query nao considera candidatos selecionado pela preferencia anterior
+                        console.log("candidatos encontrado", candidatos);
+                        res.render("pages/preferencia", {
+                          user: req.session.user,
+                          apelido: req.session.apelido,
+                          tipo: req.session.tipo,
+                          pergunta: pergunta[0],
+                          opcoes,
+                          respostas,
+                          qtCandidatos: candidatos.length,
+                        });
+                      })
+                      .catch((err) => {
+                        console.log(
+                          `Ocorreu um erro ao procurar candidatos! Erro: ${err}`
+                        );
+                        res.redirect("/");
+                      });
+                  }
                 })
                 .catch((err) => {
-                  console.log(`Ocorreu um erro ao buscar candidatos: ${err}`);
+                  console.log(
+                    `Ocorreu um erro ao pesquisar preferencias! Erro: ${err}`
+                  );
+                  res.redirect("/");
                 });
             })
             .catch((err) => {
+              res.redirect("/");
               console.log(`Ocorreu um erro ao buscar as opções: ${err}`);
             });
         })
         .catch((err) => {
+          res.redirect("/");
           console.log(`Ocorreu um erro ao buscar as opções: ${err}`);
         });
     })
@@ -145,48 +195,5 @@ exports.salvarPreferencia = async (req, res) => {
     })
     .catch((err) => {
       console.log(`Ocorreu um erro ao tentar salvar a resposta! Erro: ${err}`);
-    });
-};
-
-const getCandidatos = async (idPessoa, resolve, reject) => {
-  knex
-    .select("preferencia.idPessoa")
-    .from("preferencia")
-    .andWhere("preferencia.idPessoa", idPessoa)
-    .then((preferencias) => {
-      if (preferencias.length == 0) {
-        knex
-          .select("pessoa.idPessoa")
-          .from("pessoa")
-          .whereNot("pessoa.idPessoa", idPessoa)
-          .then((candidatos) => {
-            console.log("todas as pessoas", candidatos);
-            resolve(candidatos);
-          })
-          .catch((err) => {
-            reject(`Ocorreu um erro ao procurar candidatos! Erro: ${err}`);
-          });
-      } else {
-        knex
-          .select("resposta.idPessoa")
-          .from("resposta")
-          .joinRaw(
-            `INNER JOIN preferencia 
-        ON (resposta.idPergunta = preferencia.idPergunta) 
-        AND (resposta.idOpcao = preferencia.idOpcao)`
-          )
-          .whereNot("resposta.idPessoa", idPessoa)
-          .andWhere("preferencia.idPessoa", idPessoa)
-          .then((candidatos) => {
-            console.log("candidatos encontrado", candidatos);
-            resolve(candidatos);
-          })
-          .catch((err) => {
-            reject(`Ocorreu um erro ao procurar candidatos! Erro: ${err}`);
-          });
-      }
-    })
-    .catch((err) => {
-      reject(`Ocorreu um erro ao pesquisar preferencias! Erro: ${err}`);
     });
 };
