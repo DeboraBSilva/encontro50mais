@@ -57,6 +57,14 @@ router.get("/candidatos", (req, res) => {
   }
 });
 
+router.get("/candidato", (req, res) => {
+  if (req.session.user && req.session.user == "logado") {
+    candidatoController.getCandidato(req,res)
+  } else {
+    res.redirect("/login");
+  }
+});
+
 router.get("/login", (req, res) => {
   req.session.user = "";
   req.session.email = "";

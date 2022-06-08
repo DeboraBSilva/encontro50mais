@@ -56,6 +56,7 @@ exports.getPergunta = async (req, res) => {
                 .from("preferencia")
                 .andWhere("preferencia.idPessoa", req.session.idPessoa)
                 .then((preferencias) => {
+                  // Quando nao tiver preferencias, todas as pessoas sao candidatos
                   if (preferencias.length == 0) {
                     knex
                       .select("pessoa.idPessoa")
@@ -79,6 +80,7 @@ exports.getPergunta = async (req, res) => {
                         res.redirect("/");
                       });
                   } else {
+                    // Filtra pessoas de acordo com a preferencia
                     knex
                       .select("resposta.idPessoa")
                       .from("resposta")
@@ -129,11 +131,7 @@ exports.getPergunta = async (req, res) => {
     })
     .catch((err) => {
       req.session.posicaoPerguntaPreferencia = 0;
-      res.render("index", {
-        user: req.session.user,
-        apelido: req.session.apelido,
-        tipo: req.session.tipo,
-      });
+      res.redirect("/");
       console.log(`Ocorreu um erro ao buscar a pergunta: ${err}`);
     });
 };
@@ -188,12 +186,14 @@ exports.salvarPreferencia = async (req, res) => {
           res.redirect("/preferencia");
         })
         .catch((err) => {
+          res.redirect("/");
           console.log(
             `Ocorreu um erro ao tentar salvar a resposta! Erro: ${err}`
           );
         });
     })
     .catch((err) => {
+      res.redirect("/");
       console.log(`Ocorreu um erro ao tentar salvar a resposta! Erro: ${err}`);
     });
 };

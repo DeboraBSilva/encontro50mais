@@ -8,7 +8,7 @@
     <!-- começa aqui mostrar os candidatos -->
     <% candidatos.forEach(candidato => { %>
       <li class="w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-        <span class="text-lg"><%= candidato.nome %></span>
+        <a class="hover:underline" href="/candidato?id=<%= candidato.idPessoa %>"><span class="text-lg"><%= candidato.nome %></span></a>
       </li>
     <% }) %>
     <!-- termina aqui -->
