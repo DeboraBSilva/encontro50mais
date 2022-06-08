@@ -59,13 +59,14 @@
           >Data de nascimento</label
         >
       </div>
-      <input
-        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        type="date"
-        id="nascimento"
+      <input 
+        class="shadow appearance-none border rounded w-full py-2 px-3
+        text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        type="text" 
+        id="nascimento" 
         name="nascimento"
-        required
-      />
+        value=<%= moment(pessoa.nascimento).format('DD/MM/YYYY') %> 
+        required />
     </div>
     <div class="md:flex md:items-center mb-6">
       <div class="md:w-1/3">
@@ -126,13 +127,14 @@
 </div>
 
 <script>
+  // Se a pessoa for false, nao pode preencher os valores, por isso nao foi usado o value direto nos inputs
   const pessoa = <%- JSON.stringify(pessoa) %>;
-  console.log(pessoa)
   if (pessoa) {
     document.getElementById("nome").value = pessoa.nome;
     document.getElementById("apelido").value = pessoa.apelido;
     document.getElementById("email").value = pessoa.email;
-    document.getElementById("nascimento").value = pessoa.nascimento; // TODO nao esta preenchendo na tela
+    // TODO colocando value direto no input, quando pessoa = false coloca a data de hoje
+    // document.getElementById("nascimento").value = <%= moment(Date.parse(pessoa.nascimento)).format('DD/MM/YYYY') %>;
     document.getElementById("cidade").value = pessoa.cidade;
     document.getElementById("password").value = pessoa.password;
     document.getElementById("btnSalvar").innerText = "Salvar"

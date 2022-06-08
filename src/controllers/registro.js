@@ -1,4 +1,4 @@
-const moment = require('moment');
+const moment = require("moment");
 require("dotenv").config();
 const knex = require("knex")({
   client: "mysql2",
@@ -51,6 +51,7 @@ exports.registrar = async (req, res) => {
           user: req.session.user,
           apelido: "",
           tipo: "",
+          moment: moment,
           pessoa: false,
           mensagem: `Ocorreu um erro ao tentar registrar! Erro: ${err}`,
         });
@@ -73,19 +74,13 @@ exports.getRegistro = async (req, res) => {
     .from("pessoa")
     .where("idPessoa", req.session.idPessoa)
     .then((pessoa) => {
-      req.session.apelido = pessoa[0].apelido
+      req.session.apelido = pessoa[0].apelido;
       res.render("pages/registro", {
         user: req.session.user,
         apelido: req.session.apelido,
         tipo: req.session.tipo,
-        pessoa: {
-          nome: pessoa[0].nome,
-          email: pessoa[0].email,
-          nascimento: moment(Date.parse(pessoa[0].nascimento)).format('DD/MM/YYYY HH:mm').toString(), // TODO
-          cidade: pessoa[0].cidade,
-          apelido: pessoa[0].apelido,
-          password: pessoa[0].password,
-        },
+        moment: moment,
+        pessoa: pessoa[0],
         mensagem: "Altere e salve para editar seu registro.",
       });
     });
