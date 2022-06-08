@@ -4,8 +4,13 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon app.js",
-    "start": "node app.js"
+    "dev": "npx nodemon app.js",
+    "start": "node app.js",
+    "docker_build": "docker build --tag registry.dbvg.com.br:5000/encontro50mais .",
+    "docker_run": "docker run -d -p 3006:3000 --name encontro50mais registry.dbvg.com.br:5000/encontro50mais",
+    "docker_stop": "docker stop encontro50mais && docker rm encontro50mais",
+    "docker_push": "docker push registry.dbvg.com.br:5000/encontro50mais",
+    "docker_producao":"docker run -d -p 3006:3000 --restart=always --name encontro50mais registry.dbvg.com.br:5000/encontro50mais"
   },
   "author": "",
   "license": "ISC",

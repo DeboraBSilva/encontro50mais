@@ -6,4 +6,10 @@
 - Setup the `.env` file based on `.env.exemple`
 
 ### Running
+- Development:
+`npm run dev`
+OR
 `npx nodemon app.js`
+- Production
+`npm run docker_build`
+`npm run docker_run`
