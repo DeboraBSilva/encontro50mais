@@ -11,5 +11,6 @@
 OR
 `npm run start`
 - Production
-`npm run docker_build`
-`npm run docker_producao`
+`npm run build`
+THEN
+`npm run producao`

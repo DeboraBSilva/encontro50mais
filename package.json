@@ -6,10 +6,10 @@
   "scripts": {
     "dev": "npx nodemon app.js",
     "start": "node app.js",
-    "docker_build": "docker build --tag encontro50mais .",
-    "docker_run": "docker run -d -p 3007:3000 --name encontro50mais encontro50mais",
-    "docker_stop": "docker stop encontro50mais && docker rm encontro50mais",
-    "docker_producao":"docker run -d -p 3007:3000 --restart=always --name encontro50mais encontro50mais"
+    "build": "docker build --tag encontro50mais .",
+    "run": "docker run -d -p 3007:3000 --name encontro50mais encontro50mais",
+    "stop": "docker stop encontro50mais && docker rm encontro50mais",
+    "producao":"docker run -d -p 3007:3000 --restart=always --name encontro50mais encontro50mais"
   },
   "author": "",
   "license": "ISC",
