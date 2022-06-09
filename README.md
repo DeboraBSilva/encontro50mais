@@ -9,7 +9,7 @@
 - Development:
 `npm run dev`
 OR
-`npx nodemon app.js`
+`npm run start`
 - Production
 `npm run docker_build`
-`npm run docker_run`
+`npm run docker_producao`
