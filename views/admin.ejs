@@ -16,7 +16,6 @@
       class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
     >
       <tr>
-        <th scope="col" class="border px-6 py-3">ID</th>
         <th scope="col" class="border px-6 py-3">Ordem</th>
         <th scope="col" class="border px-6 py-3">Descrição</th>
         <th scope="col" class="border px-6 py-3">Tipo</th>
@@ -32,7 +31,6 @@
       <!-- começa aqui mostrar as perguntas -->
       <% perguntas.forEach( pergunta=> { %>
       <tr class="border dark:bg-gray-800 dark:border-gray-700 odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700">
-        <th scope="row" class="border px-6 py-4 text-center"><%= pergunta.idPergunta %></th>
         <td class="border px-6 py-4 text-center"><%= pergunta.ordem %></td>
         <td class="border px-6 py-4"><%= pergunta.descricao %></td>
         <td class="border px-6 py-4 text-center"><%= pergunta.tipo %></td>

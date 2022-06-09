@@ -73,12 +73,12 @@ exports.showCandidatos = async (req, res) => {
                       });
                   });
                 })
-                  .then((candidatos) => {
+                  .then((pessoas) => {
                     res.render("pages/candidatos", {
                       user: req.session.user,
                       apelido: req.session.apelido,
                       tipo: req.session.tipo,
-                      candidatos,
+                      pessoas,
                     });
                   })
                   .catch((err) => {
