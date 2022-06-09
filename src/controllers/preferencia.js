@@ -176,7 +176,7 @@ exports.getPergunta = async (req, res) => {
         });
     })
     .catch((err) => {
-      req.session.posicaoPerguntaPreferencia = 0;
+      req.session.posicaoPerguntaPreferencia = -1;
       res.redirect("/");
       console.log(`Ocorreu um erro ao buscar a pergunta: ${err}`);
     });

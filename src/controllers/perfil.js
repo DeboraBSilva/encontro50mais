@@ -63,7 +63,7 @@ exports.getPergunta = async (req, res) => {
         });
     })
     .catch((err) => {
-      req.session.posicaoPergunta = 0;
+      req.session.posicaoPergunta = -1;
       res.redirect("/");
       console.log(`Ocorreu um erro ao buscar a pergunta: ${err}`);
     });
